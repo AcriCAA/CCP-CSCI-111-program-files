@@ -20,6 +20,6 @@ public class HelloWorld {
         System.out.println("Hello World");
         System.out.println("Hello World");
         System.out.println("Hi Hi Hi HI HI hi Hi");
-    } // End main method
+    } // End HelloWorld main method
     
-} // End class 
+} // End HelloWorld class 
