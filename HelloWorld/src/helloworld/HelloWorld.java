@@ -1,7 +1,7 @@
 /* 
  * @author Corey Acri
  * Course: CSCI 111
- * Date: Jan. 20, 2016
+ * Date: Jan. 21, 2016
  * Description of Program: Prints Hello World to Console
  *
  */
