@@ -1,21 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * @author Corey Acri
+ * Course: CSCI 111
+ * Date: Jan. 20, 2016
+ * Description of Program: Prints Hello World to Console
+ *
  */
+
 package helloworld;
 
-/**
- *
- * @author AcriCAA
- */
 public class HelloWorld {
-
+// public means that the method or class can be seen outside class or method
     /**
      * @param args the command line arguments
+     * this is my main method. It will print "Hello World"
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Here is the statement to print out my "Hello World" greeting
+        System.out.println("Hello World");
     }
     
 }
