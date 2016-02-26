@@ -1,0 +1,20 @@
+Java - The Java Tutorials - http://docs.oracle.com/javase/tutorial/
+Python - Tutorialspoint Java tutorials - http://www.tutorialspoint.com/python/
+Perl - Tutorialspoint Perl tutorials - http://www.tutorialspoint.com/perl/
+C++ - cplusplus.com C++ tutorials - http://www.cplusplus.com/doc/tutorial/
+Objective C - The objective C programming tutorials - http://howtomakeiphoneapps.com/objective-c-tutorial/
+C++ - the LearnCPP C++ Tutorial - http://www.learncpp.com/
+Objectice C - The Objective C tutorial - http://objectivectutorial.org/
+Java - LearnJavaOnline.org Interactive Java Tutorial - http://www.learnjavaonline.org/
+Objective C - Objective C beginner's Guide - http://www.otierney.net/objective-c.html
+C# - Microsoft C# - http://msdn.microsoft.com/en-us/library/aa288436%28v=vs.71%29.aspx
+Python - The Python Tutorial - http://docs.python.org/2/tutorial/
+Python - Learn Python interactive Tutorial - http://www.learnpython.org/
+COBOL - The ZingCOBOL beginners guide to COBOL Programming - http://cobol.404i.com/
+Java - Tutorialspoint Java tutorials - http://www.tutorialspoint.com/java/
+C++ - Tutorialspoint Java tutorials - http://www.tutorialspoint.com/cplusplus/
+Ruby - Ruby in Twenty Minutes - https://www.ruby-lang.org/en/documentation/quickstart/
+PHP - PHP: a Simple Tutorial - http://php.net/manual/en/tutorial.php
+JavaScript - W3 Schools Javascript Tutorial - http://www.w3schools.com/js/default.asp
+Ruby - The Ruby DOC Introduction to Ruby - http://ruby-doc.org/docs/Tutorial/
+JavaScript - JavaScript for the Total Non-Programmer - http://www.webteacher.com/javascript/

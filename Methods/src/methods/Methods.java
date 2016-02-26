@@ -24,7 +24,7 @@ public class Methods {
         
         System.out.println(degree); 
         
-    }
+    } // end main
     
     
     public static void displayMessage ()
