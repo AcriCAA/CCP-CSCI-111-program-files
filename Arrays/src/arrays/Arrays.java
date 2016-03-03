@@ -75,9 +75,26 @@ if (num[i] > highest)
 System.out.println("Final:  " + highest);
 
 double grades[] = getGrades();
+        System.out.println("Printing Grades");
 for(double val : grades)
     System.out.println(val);
 
+double newGrades[] = changeGrades(grades);
+        System.out.println("Printing new Grades");
+for(double val : newGrades)
+    System.out.println(val);
+
+        System.out.println("Printing Grades");
+for(double val : grades)
+    System.out.println(val);
+
+
+
+//chgGrades(grades);
+//
+//        System.out.println("chgGrades");
+//for(double val : grades)
+//    System.out.println(val);
 
 
 // comparing string objects
@@ -101,9 +118,38 @@ String a[] = {"Hello", "hello"};
 public static double [] getGrades() // you want to specify the array and the data type in 
 {
 
-double[] grades = {3.4, 3.5,3.6};
+double[] grades = {3.4,3.5,3.6};
 return grades; // you can just return the variable name
 
 }
-     
+
+public static double [] changeGrades(double[] newG) // you want to specify the array and the data type in 
+{
+
+    
+    for(int i = 0; i < newG.length; i++)
+            newG[i]=0.0;
+   
+for(double val : newG) 
+         System.out.println(val);
+   
+
+return newG; // you can just return the variable name
+
+}
+ 
+public static void chgGrades(double[] newG) 
+{
+
+    
+    for(int i = 0; i < newG.length; i++)
+            newG[i]=0.0;
+   
+for(double val : newG) 
+         System.out.println(val);
+   
+
+}
+
+
 }

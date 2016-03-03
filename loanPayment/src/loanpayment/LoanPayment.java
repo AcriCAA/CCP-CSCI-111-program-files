@@ -66,7 +66,7 @@ public class LoanPayment {
         months = getValue(kb);
         //System.out.println(months);
 
-// call method to calculate and return monthly interest rate  
+    // call method to calculate and return monthly interest rate  
         monthlyInterestRate = calculateMonthlyInterestRate(interestRate);
         System.out.println(monthlyInterestRate);
 // Call method to calculate and return the monthly payment
@@ -132,6 +132,7 @@ public class LoanPayment {
     }
 ////////////////////////////////////////////////////////////////////////////////
 
+    
 ////////////////////////////////////////////////////////////////////////////////        
 // A user-defined method to print a formatted loan statement showing
 // Amount borrowed
@@ -148,11 +149,11 @@ public class LoanPayment {
                 "Length of Loan", "Monthly Payment"
         );
 
-        System.out.printf("$%,1.2f%19.4f%23.2f$%,23.2f%n",
+        System.out.printf("%,15.2f%23.4f%20.0f%,20.2f%n",
                 loanAmount, interestRate, months, monthlyPayment);
 
     }
-
+////////////////////////////////////////////////////////////////////////////////
 
 
 } // end class 

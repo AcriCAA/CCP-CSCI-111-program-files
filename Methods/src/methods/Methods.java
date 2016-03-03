@@ -58,5 +58,20 @@ public class Methods {
     
     }
     
+    ////////////////////////////////////////////////////////////////////////////////
+//This method prints an int array and numbers the items
+////////////////////////////////////////////////////////////////////////////////    
+    public static void printArrayNumbered (int[] t, int count) throws Exception {
+        // System.out.println("Ran printArray");
+        int i = 1;
+        while (i < count) {
+
+            System.out.println(i + ".) " + t[i]);
+            
+            i++;
+        }
+    }
+////////////////////////////////////////////////////////////////////////////////   
+    
     
 }
