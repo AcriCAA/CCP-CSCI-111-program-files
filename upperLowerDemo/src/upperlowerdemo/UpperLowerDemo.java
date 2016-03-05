@@ -29,9 +29,11 @@ public class UpperLowerDemo {
 
         // get the first character of inString as a one character String
         String first = inString.substring(0, 1);
+        System.out.println(first);
 
         // get the rest of inString
         String rest = inString.substring(1, inString.length());
+        System.out.println(rest);
 
         // return a String with first uppercase and rest lowercase
            return first.toUpperCase() + rest.toLowerCase();
