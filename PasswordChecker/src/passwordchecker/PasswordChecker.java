@@ -27,7 +27,7 @@ public class PasswordChecker {
     public static void main(String[] args) {
         
         // declare booleans to track various test values
-        boolean passwordValid,
+        boolean passwordValid = false,
                 lengthPass,
                 alphaPass,
                 numberPass,
@@ -63,9 +63,21 @@ public class PasswordChecker {
         do {
 
             try {
-
+                
                 passwordAttempt = kb.nextLine();
-
+                
+                if (passwordAttempt.equalsIgnoreCase("instructions") == true){ // if the user requests instructions print them
+                printInstructions();
+                count--;
+                enterPasswordPromptAgain(ATTEMPT_COUNT,
+                        count);
+               
+                passwordValid = false;
+                }
+                
+                else if(passwordAttempt.equalsIgnoreCase("instructions") == false){
+               
+                         
                 // run method to see if desired password is at least 8 chars
                 lengthPass = lengthChecker(passwordAttempt);
 
@@ -134,8 +146,8 @@ public class PasswordChecker {
                             ATTEMPT_COUNT,
                             count);
                     
-                    // call method to print the instructions again                     
-                    printInstructions();
+                    // call method to print the instructions again
+                    System.out.println("Type 'instructions' in the prompt to list all password criteria"); 
                     
                     // call method to tell the user to enter the password again and let him/her the number of attempts left
                     enterPasswordPromptAgain(ATTEMPT_COUNT,
@@ -152,6 +164,7 @@ public class PasswordChecker {
                     passwordValid = userQuit;
                     count = ATTEMPT_COUNT;
                 }
+                }  
 
             } catch (Exception e) {
 
@@ -464,9 +477,11 @@ public class PasswordChecker {
         printLineBreak(71, ':');            // call printLineBreak and pass the desired number of chars and character 
         System.out.println("\n:: Hello. This program will allow "
                 + "you to set your password.");
-        System.out.println(":: [you may quit the program by typing 'quit' at the "
-                + "password prompt]");
+        
         printLineBreak(71, ':');
+        System.out.println("\n\n[you may quit the program by typing 'quit' at the "
+                + "password prompt]");
+         printLineBreak(71, ':');
         System.out.print("\n\n\n");
 
     }
