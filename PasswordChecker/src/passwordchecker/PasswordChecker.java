@@ -1,25 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author AcriCAA 
+ * Corey Acri 
+ * Course: CSCI 111
+ * Date: March 5, 2016
+ * Description: This program sets a user password with these conditions: 
+ * 
+ * 1) The password must be at least 8 characters long.
+ * 2) The password must contain at least:
+ *      - one alpha character [a-z A-Z]
+ *      - one numeric character [0-9]
+ *      - one character that is not alpha or numeric, such as
+ * 3) The password must not:
+ *      - contain spaces 
+ *      - begin with an exclamation [!] or a question mark [?]
+ *      - contain repeating character strings of 3 or more identical
+ *          characters, such as “111” or “aaa”.
  */
+
 package passwordchecker;
 
 import static java.lang.Character.isLetter;
 import java.util.Scanner;
 
-/**
- *
- * @author AcriCAA
- */
 public class PasswordChecker {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-
-        boolean userQuit = false;
+        
+        // declare booleans to track various test values
         boolean passwordValid,
                 lengthPass,
                 alphaPass,
@@ -29,9 +36,11 @@ public class PasswordChecker {
                 noQMark,
                 noEMark,
                 noThreeRepeat,
+                userQuit = false, // must be initialized because it may never 
+                                  // be used
                 comparison = false; // comparison must be initialized because 
-        // it may never be used if the prelim checks 
-        // fail 
+                                    // it may never be used if the prelim checks 
+                                    // fail 
 
         String passwordAttempt; // value to hold passwordAttempt
         String passwordToCompare; // user re-typed password
@@ -39,7 +48,7 @@ public class PasswordChecker {
         // set up instance of Scanner for input
         Scanner kb = new Scanner(System.in);
 
-        printGreeting();
+        printGreeting(); 
         printInstructions();
         enterPasswordPrompt();
 
@@ -49,7 +58,8 @@ public class PasswordChecker {
 
         int count = 1; // this tracks how many attempts user has made
         // to enter a password. 
-
+        
+        // do-while loop to check password entries and run methods to check if it meets conditions
         do {
 
             try {
@@ -94,11 +104,14 @@ public class PasswordChecker {
                 // if the user's password attempt passed all of the preliminary checks
                 // ask user to retype password and call method to compare them. 
                 if (passwordValid == true) {
-                    // comparison = false; // intialize comparison
                     for (int i = 0; comparison == false && i < 3; i++) { // gives user 3 tries to re-enter pw
-                        printConfirmPassword();
-                        passwordToCompare = kb.nextLine();
+                        printConfirmPassword();                          // call  method to print confirm password message
+                        passwordToCompare = kb.nextLine();               // get user to enter the duplicate password 
+                        
+                        // call method to compare the two passwords entered
                         comparison = comparePasswords(passwordAttempt, passwordToCompare);
+                        
+                        // set the passwordValid (validity sentinel) to equal the value returned from the comparison method
                         passwordValid = comparison;
                     }
                 }
@@ -106,7 +119,8 @@ public class PasswordChecker {
                 if (passwordValid == false) {
                     // tell the user password was invalid and to try again
                     passwordInvalid();
-
+                    
+                    // call method to print the reason the password failed
                     printReasonForFail(
                             lengthPass,
                             alphaPass,
@@ -119,7 +133,11 @@ public class PasswordChecker {
                             comparison,
                             ATTEMPT_COUNT,
                             count);
+                    
+                    // call method to print the instructions again                     
                     printInstructions();
+                    
+                    // call method to tell the user to enter the password again and let him/her the number of attempts left
                     enterPasswordPromptAgain(ATTEMPT_COUNT,
                             count);
                 }
@@ -137,6 +155,7 @@ public class PasswordChecker {
 
             } catch (Exception e) {
 
+                // if the user does not enter anything, catch the exception and set the password validity sentinel to false
                 enterPasswordPromptAgain(ATTEMPT_COUNT,
                         count);
 
@@ -146,12 +165,14 @@ public class PasswordChecker {
 
             ++count;
 
-        } while (passwordValid == false && count <= ATTEMPT_COUNT);
+        } while (passwordValid == false && count <= ATTEMPT_COUNT); // check the status of the password Validity sentinel, if it is false and the user has not 
+        // exceeded the number of loops preset, continue loop 
 
-        if (passwordValid == true && userQuit == false) {
+        if (passwordValid == true && userQuit == false) { // check if the password validity sentinel says the password is valid and if the user did not request to quit
+        // print the success message
             printSuccess();
         } else {
-            System.out.println("\n\n[User request to quit...quitting program]");
+            System.out.println("\n\n[User request to quit...quitting program]");  // user requested a quit, print quit program message 
         }
 
     } // close main
@@ -161,8 +182,8 @@ public class PasswordChecker {
 ////////////////////////////////////////////////////////////////////////////////    
     public static boolean checkForQuit(String pw) {
 
-        boolean passwordPass = false;
-        passwordPass = pw.equals("quit");
+        boolean passwordPass = false;       
+        passwordPass = pw.equals("quit");   // check if the pw entered is "quit"
         return passwordPass;
 
     }
@@ -174,14 +195,11 @@ public class PasswordChecker {
 ////////////////////////////////////////////////////////////////////////////////
     public static boolean lengthChecker(String pw) {
 
-        boolean passwordPass = true;
+        boolean passwordPass = true; // set to true to indicate it is >= 8
 
         if (pw.length() < 8) {
-
             passwordPass = false;
-
         }
-
         return passwordPass;
 
     }
@@ -193,20 +211,20 @@ public class PasswordChecker {
 ////////////////////////////////////////////////////////////////////////////////
     public static boolean checkForAlpha(String pw) {
 
-        boolean passwordPass = false; // value to return, true means it passed the test 
-        boolean isAlpha = false; // status for letter, whether alpha or not
-        boolean letterStatus;
+        boolean passwordPass = false;   // value to return, true means it passed the test 
+        boolean isAlpha = false;        // control for letter status in loop
+        boolean letterStatus;           // holds true/false value for temp 
         char temp;
         int i = 0;
 
-        while (i < pw.length() && isAlpha == false) {
-            temp = pw.charAt(i);
+        while (i < pw.length() && isAlpha == false) { // iterate through entire string until end or if letter found
+            temp = pw.charAt(i);                      // check if the current index is a letter 
 
-            letterStatus = isLetter(temp);
+            letterStatus = isLetter(temp);            // update letterStatus
 
             if (letterStatus == true) {
-                isAlpha = true;
-                passwordPass = true;
+                isAlpha = true;             // if it is a letter set isAlpha to true
+                passwordPass = true;        // if letter found set passwordPass to true
 
             }
 
@@ -225,20 +243,20 @@ public class PasswordChecker {
 ////////////////////////////////////////////////////////////////////////////////
     public static boolean checkForNumber(String pw) {
 
-        boolean passwordPass = false; // value to return, true means it passed the test 
-        boolean isNumber = false; // status for letter, whether alpha or not
+        boolean passwordPass = false;                   // value to return, true means it passed the test 
+        boolean isNumber = false;                       // status for number, whether alpha or not
         boolean numberStatus;
         char temp;
         int i = 0;
 
-        while (i < pw.length() && isNumber == false) {
+        while (i < pw.length() && isNumber == false) { 
             temp = pw.charAt(i);
 
-            numberStatus = Character.isDigit(temp);
+            numberStatus = Character.isDigit(temp);     // update numberStatus
 
-            if (numberStatus == true) {
-                isNumber = true;
-                passwordPass = true;
+            if (numberStatus == true) {                 // check if it is a letter
+                isNumber = true;                        // if it is a letter set isNumber sentinel to tru
+                passwordPass = true;                    // set passwordPass to true 
 
             }
 
@@ -257,24 +275,24 @@ public class PasswordChecker {
 ////////////////////////////////////////////////////////////////////////////////
     public static boolean checkForSymbol(String pw) {
 
-        boolean passwordPass = false; // value to return, true means it passed the test 
+        boolean passwordPass = false;           // value to return, true means it passed the test 
         boolean isSymbol = false;
-        boolean letterStatus; // true if is a letter
-        boolean numberStatus; // true if temp is a number
-        boolean whiteSpaceStatus; // true if temp is whitespace
+        boolean letterStatus;                   // true if is a letter
+        boolean numberStatus;                   // true if temp is a number
+        boolean whiteSpaceStatus;               // true if temp is whitespace
         char temp;
         int i = 0;
 
-        while (i < pw.length() && isSymbol == false) {
-            temp = pw.charAt(i);
+        while (i < pw.length() && isSymbol == false) { //loop through String or until a symbol is found
+            temp = pw.charAt(i);                       // assign char at index to temp
 
-            letterStatus = isLetter(temp);
-            numberStatus = Character.isDigit(temp);
-            whiteSpaceStatus = Character.isWhitespace(temp);
+            letterStatus = isLetter(temp);             // set boolean value for letterStatus
+            numberStatus = Character.isDigit(temp);    // set boolean value for numberStatus
+            whiteSpaceStatus = Character.isWhitespace(temp); // set booleam value for whiteSpaceStatus
 
-            if (letterStatus == false && numberStatus == false
+            if (letterStatus == false && numberStatus == false  // if it is neither a letter, number, or whitespace, it is a symbol
                     && whiteSpaceStatus == false) {
-                isSymbol = true;
+                isSymbol = true;                                // set symbol to true
                 passwordPass = true;
             }
 
@@ -296,19 +314,18 @@ public class PasswordChecker {
         // the test is passed if there is NO space
         boolean passwordPass = true; // value to return, true means it passed the test 
         boolean isSpace = false; // status for space 
-        boolean spaceStatus;
-        char temp;
-        int i = 0;
+        boolean spaceStatus;     // sentinel for spaceStatus
+        char temp;              // temp value for character from String index
+        int i = 0;              
 
-        while (i < pw.length() && isSpace == false) {
-            temp = pw.charAt(i);
+        while (i < pw.length() && isSpace == false) { // loop while there are still characters in string or if a space is found
+            temp = pw.charAt(i);                      // assign char at index to temp
 
-            spaceStatus = Character.isWhitespace(temp);
+            spaceStatus = Character.isWhitespace(temp); // set spaceStatus
 
-            if (spaceStatus == true) {
-                isSpace = true;
+            if (spaceStatus == true) {   // if spaceStatus is true then it fails the test
+                isSpace = true;           
                 passwordPass = false;
-//                System.out.println("failed whitespace test with " + temp); 
             }
 
             i++;
@@ -327,9 +344,7 @@ public class PasswordChecker {
     public static boolean testFirstChar(String pw, char c) {
 
         boolean passwordPass = true; // value to return, true means it passed the test 
-
-        // System.out.println("The char at 0 is: " + pw.charAt(0));
-        if (pw.charAt(0) == c) {
+        if (pw.charAt(0) == c) {  // if the first character is the char passed into method then it fails the test
             passwordPass = false;
         }
 
@@ -352,7 +367,9 @@ public class PasswordChecker {
             boolean noEMark,
             boolean noThreeRepeat) {
 
-        boolean passwordPass = false;
+        boolean passwordPass = false; // default status is false 
+        
+        // if it passes all of the criteria set passworPass to true
         if (lengthPass == true && alphaPass == true && numberPass == true && specialCharPass == true
                 && noSpaces == true && noQMark == true && noEMark == true && noThreeRepeat == true) {
             passwordPass = true;
@@ -367,32 +384,33 @@ public class PasswordChecker {
 // This method checks for consecutive characters
 ////////////////////////////////////////////////////////////////////////////////
     public static boolean checkForRepeats(String pw) {
-        boolean passwordPass = true;
-
-        if (pw.length() < 3) {
+        
+        boolean passwordPass = true; // set value to true because you assume there are 
+                                     // not three consecutive values by default 
+        if (pw.length() < 3) {      // double check that the String is more than 3 characters
 
             passwordPass = false;
 
         } else {
-            for (int i = 0; i < pw.length(); i++) {
+            for (int i = 0; i < pw.length(); i++) {  // iterate through string
 
-                if (i == 0) {
-                    if (pw.charAt(i) == pw.charAt(i + 1) && pw.charAt(i) == pw.charAt(i + 2)) {
-                        passwordPass = false;
+                if (i == 0) {  // look at first value in string 
+                    if (pw.charAt(i) == pw.charAt(i + 1) && pw.charAt(i) == pw.charAt(i + 2)) { // if it is the same as the second value 
+                        passwordPass = false;                                                   // and the same as the third value, the test fails
 
                     }
 
-                } else if (i == (pw.length() - 1)) {
+                } else if (i == (pw.length() - 1)) {  // else if you are at the last value in the string
 
-                    if (pw.charAt(i) == pw.charAt(i - 1)
+                    if (pw.charAt(i) == pw.charAt(i - 1)  // if it is equal to the next to last and two from the last the test fails
                             && pw.charAt(i) == pw.charAt(i - 2)) {
                         passwordPass = false;
 
                     }
 
                 } else if (pw.charAt(i) == pw.charAt(i - 1)
-                        && pw.charAt(i) == pw.charAt(i + 1)) {
-                    passwordPass = false;
+                        && pw.charAt(i) == pw.charAt(i + 1)) { // else if you are anywhere else, look at character one value to the left and
+                    passwordPass = false;                      // look at the character one value to the right, if they are the same the test fails
 
                 } // close else 
 
@@ -405,16 +423,19 @@ public class PasswordChecker {
     } // close method
 ////////////////////////////////////////////////////////////////////////////////
 
-// this method compares one string to another 
+////////////////////////////////////////////////////////////////////////////////    
+// this method compares one string to another, checks if they match and 
+// tells the user if they match.  
+////////////////////////////////////////////////////////////////////////////////
     public static boolean comparePasswords(String pw1, String pw2) {
 
         boolean passwordPass;
 
-        passwordPass = pw1.equalsIgnoreCase(pw2);
+        passwordPass = pw1.equalsIgnoreCase(pw2);   // compare the passwords ignoring case
 
         if (passwordPass == false) {
 
-            System.out.println("-- Try again. The passwords do not match");
+            System.out.println("-- Try again. The passwords do not match"); // if they do not match tell user
 
         }
 
@@ -429,7 +450,7 @@ public class PasswordChecker {
 ////////////////////////////////////////////////////////////////////////////////
     public static void printLineBreak(int width, char c) {
 
-        for (int i = 1; i < width; i++) {
+        for (int i = 1; i < width; i++) {   // print the char c until you've reached the desired width
             System.out.print(c);
         }
 
@@ -440,14 +461,12 @@ public class PasswordChecker {
 // this method prints the greeting    
 ////////////////////////////////////////////////////////////////////////////////   
     public static void printGreeting() {
-        printLineBreak(71, ':');
+        printLineBreak(71, ':');            // call printLineBreak and pass the desired number of chars and character 
         System.out.println("\n:: Hello. This program will allow "
                 + "you to set your password.");
         System.out.println(":: [you may quit the program by typing 'quit' at the "
                 + "password prompt]");
-        for (int i = 1; i < 70; i++) {
-            System.out.print(":");
-        }
+        printLineBreak(71, ':');
         System.out.print("\n\n\n");
 
     }
@@ -457,7 +476,7 @@ public class PasswordChecker {
 // this method prints the instructions    
 ////////////////////////////////////////////////////////////////////////////////   
     public static void printInstructions() {
-
+        // prints the criteria 
         System.out.println("Your password must meet these conditions:\n"
                 + "1) The password must be at least 8 characters long.\n"
                 + "\n"
@@ -480,7 +499,7 @@ public class PasswordChecker {
 // this method prompts the user to enter a password  
 ////////////////////////////////////////////////////////////////////////////////   
     public static void enterPasswordPrompt() {
-
+        
         for (int i = 1; i < 70; i++) {
             System.out.print("*");
         }
@@ -489,21 +508,26 @@ public class PasswordChecker {
     }
 ////////////////////////////////////////////////////////////////////////////////  
 
+    
+////////////////////////////////////////////////////////////////////////////////       
+// This method asks the user to re-enter the password    
 ////////////////////////////////////////////////////////////////////////////////   
     public static void printConfirmPassword() {
-        for (int i = 1; i < 70; i++) {
-            System.out.print("*");
-        }
+        
+        // call printLineBreak for formatting 
+        printLineBreak(71, '*'); 
         System.out.print("\nPlease re-enter your password to confirm:> ");
 
     }
 ////////////////////////////////////////////////////////////////////////////////  
 
 ////////////////////////////////////////////////////////////////////////////////    
-// this method prompts the user to enter a password  
+// this method prompts the user to enter a password and tells the user the 
+// number of attempts he or she has left or if he/she has exceeded the number
+// of allowed attempts
 ////////////////////////////////////////////////////////////////////////////////   
     public static void enterPasswordPromptAgain(int ATTEMPT_COUNT, int count) {
-        if (ATTEMPT_COUNT - count > 0) {
+        if (ATTEMPT_COUNT - count > 0) { // subtract the attempts allowed from the current count
 
             printLineBreak(71, '*');
 
@@ -522,14 +546,12 @@ public class PasswordChecker {
 ////////////////////////////////////////////////////////////////////////////////  
 
 ////////////////////////////////////////////////////////////////////////////////    
-// this method tells the user that the password attempt was invalid
+// this method tells the user that the password attempt failed
 ////////////////////////////////////////////////////////////////////////////////   
     public static void passwordInvalid() {
-
         System.out.print("\n\n\n");
-        printLineBreak(71, 'X');
+        printLineBreak(71, 'X');  // call printLineBreak for formatting
         System.out.println("\nXXXXX            PASSWORD ATTEMPT FAILED");
-
         printLineBreak(71, 'X');
     }
 ////////////////////////////////////////////////////////////////////////////////   
@@ -540,7 +562,7 @@ public class PasswordChecker {
     public static void printSuccess() {
 
         System.out.print("\n\n\n");
-        printLineBreak(71, '*');
+        printLineBreak(71, '*');    // call print line break for formatting
         System.out.println("\n***            SUCCESS PASSWORD ACCEPTED");
         printLineBreak(71, '*');
     }
@@ -565,42 +587,47 @@ public class PasswordChecker {
 
         System.out.println("\n");
 
-        if (lengthPass == false) {
+        if (lengthPass == false) {  // if the pw does not pass the length test
 
             System.out.println("-- The password is not at least 8 characters"
                     + " long");
         }
 
-        if (noQMark == false || noEMark == false) {
+        if (noQMark == false || noEMark == false) {  // if the pw starts with a ? or !
             System.out.println("-- The password must NOT begin with "
                     + "an exclamation [!] or a question mark [?]");
         } else {
 
-            if (alphaPass == false) {
+            if (alphaPass == false) { // if the pw failed the alpha test
                 System.out.println("-- Your entry does not contain an letter"
                         + " [a-Z]");
             }
-            if (numberPass == false) {
+            if (numberPass == false) { // if the pw failed the number test
                 System.out.println("-- Your entry does not contain "
                         + "a number [0-9]");
             }
-            if (specialCharPass == false) {
+            if (specialCharPass == false) { // if the pw failed the symbols test
                 System.out.println("-- Your entry must contain "
                         + "a symbol [! @ $ % ^ & * ( ) - _ "
                         + "= + [ ] ; : ' \" , < . > / ?]");
             }
-            if (noSpaces == false) {
+            if (noSpaces == false) { // if the password had spaces
                 System.out.println("-- The password must NOT contain spaces");
             }
 
-            if (noThreeRepeat == false) {
+            if (noThreeRepeat == false) { // if the password had three chars consecutively
                 System.out.println("-- The password must NOT contain repeating "
                         + "three or more repeating characters");
             }
 
-            if (comparison == false && lengthPass == true && noQMark == true
-                    && noEMark == true && alphaPass == true && numberPass == true
-                    && specialCharPass == true && noSpaces == true
+            if (comparison == false         // this tells the user that he/she failed to enter a duplicate pw
+                    && lengthPass == true 
+                    && noQMark == true
+                    && noEMark == true 
+                    && alphaPass == true 
+                    && numberPass == true
+                    && specialCharPass == true 
+                    && noSpaces == true
                     && noThreeRepeat == true) {
 
                 System.out.println("-- You failed to enter a duplicate password"
@@ -609,7 +636,7 @@ public class PasswordChecker {
 
         } // close else 
 
-        printLineBreak(71, 'X');
+        printLineBreak(71, 'X'); // formatting 
         System.out.println("\n");
 
     }
