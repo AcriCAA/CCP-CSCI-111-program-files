@@ -174,7 +174,7 @@ public static void initiatePlayerObject(Player[] thePlayer, int number){
            System.out.println("NewLocation (in if statment): " + newLocation); 
           
        
-       
+       // will this go on git? 
        }
        
        else {
