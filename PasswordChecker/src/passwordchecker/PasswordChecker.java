@@ -68,7 +68,7 @@ public class PasswordChecker {
                 
                 if (passwordAttempt.equalsIgnoreCase("instructions") == true){ // if the user requests instructions print them
                 printInstructions();
-                count--;
+                count--;                   // deduct one from the count since entering ‘instructions’ doesn’t count as a pw attempt 
                 enterPasswordPromptAgain(ATTEMPT_COUNT,
                         count);
                
@@ -146,7 +146,7 @@ public class PasswordChecker {
                             ATTEMPT_COUNT,
                             count);
                     
-                    // call method to print the instructions again
+                    // remind user he/she can print instructions
                     System.out.println("Type 'instructions' in the prompt to list all password criteria"); 
                     
                     // call method to tell the user to enter the password again and let him/her the number of attempts left

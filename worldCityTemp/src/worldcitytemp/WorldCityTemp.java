@@ -52,12 +52,12 @@ public class WorldCityTemp {
 
         do {
             try {
-                String s = JOptionPane.showInputDialog(cityName + ", great!\n\nPlease tell me the \n current temperature in " + cityName + " in degrees Celsius:");
+                System.out.println(cityName + ", great!\n\nPlease tell me the \n current temperature in " + cityName + " in degrees Celsius:");
+                String s = kb.nextLine();
                 degreesCelsius = Double.parseDouble(s);
                 break;
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Please try again, entering only a number:",
-                        "Requires a number", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Please try again, entering only a number:");
             }
         } while (true);
 
