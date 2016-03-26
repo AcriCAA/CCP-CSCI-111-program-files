@@ -21,19 +21,24 @@ import java.util.*;
 public class Monopoly {
 
     public static void main(String[] args) throws Exception {
+        
         final int squareBounds = 40; 
         final int numPlayers = 6; // set max number of players
         int currentPlayer = 0; // placeholder for current player
-       
-        // Create array of 40 monopoly squares
-        BoardSquare[] square = new BoardSquare[squareBounds];
-        
         int i; // a loop counter
         int diRoll; // current roll of the dice
         int currentLocation; // value to hold player's current location
         int newLocation; // value to hold player's location after he/she moves away from currentLocation the number of dice values. 
+        int currentBalance; // current player's money balance
+        int rentForLocation; // the rent in the BoardSquare where the player lands after moving on the board
+        int newBalance; // holds the value for the player's new balance after rent deducted. 
         
-
+        boolean squareHasRent; // holds value for whether the square the player is on has rent; 
+        
+        // Create array of 40 monopoly squares
+        BoardSquare[] square = new BoardSquare[squareBounds];
+        
+       
         // Call the method to load the array
         loadArray(square);
 
@@ -56,14 +61,6 @@ public class Monopoly {
         
         // STEP 2: initiate player object 
         initiatePlayerObject(thePlayer, numPlayers);
-
-             
-//        for(int j = 0; j<numPlayers; j++){
-//        
-//            System.out.println(thePlayer[j].toString());
-//            
-//        
-//        }
         
         
         for(int j = 0; j < 100; j++){
@@ -79,7 +76,20 @@ public class Monopoly {
         newLocation = determineNewLocation(diRoll, currentLocation, squareBounds);
         thePlayer[currentPlayer].setLocation(newLocation);
         currentLocation = thePlayer[currentPlayer].getLocation();
+        rentForLocation = square[currentLocation].getRent(); 
         
+        // check if the square has rent
+       squareHasRent = checkIfSquareHasRent(rentForLocation);
+        
+        
+        
+     
+        currentBalance = thePlayer[currentPlayer].getBalance();
+        newBalance = chargeRent(currentBalance, rentForLocation);
+        
+            //System.out.println("The rent on this sqaure is: " + rentForLocation);
+        
+        // console outputs
         System.out.println(thePlayer[currentPlayer].toString());
         System.out.println("The player's current location is: " + currentLocation);
         System.out.println("This means it is on square: " + square[currentLocation].toString());
@@ -147,16 +157,12 @@ public static void initiatePlayerObject(Player[] thePlayer, int number){
 
         // generates random number between 1 and 6
         secondDi = 1 + (int) (Math.random() * 6);
-        System.out.println(secondDi);
 
-        total = firstDi + secondDi;
-        System.out.println(total);
-
-        return total;
+        return total = firstDi + secondDi; // totals the two random numbers
 
     }
 
-// this determines where the player lands on the board after the dice roll
+// method to determines where the player lands on the board after the dice roll
     public static int determineNewLocation(int diceRoll, int currentLocation, int squareBounds) {
       
        //squareBounds = squareBounds; // accounts for zero as a position on the board
@@ -190,7 +196,49 @@ public static void initiatePlayerObject(Player[] thePlayer, int number){
         return newLocation; 
     }
 
-// method to movePlayer 
+
+// method to deduct rent
+    
+    
+    
+// this method checks the player's balance, deducts the rent amount for the
+// board square the player landed on. It also check
+ public static int chargeRent(int balance, int rentAmount) {
+ 
+     int newBalance = 0; 
+        
+     if (rentAmount > balance)
+         return newBalance = 0; // automatically zeros out player balance if there are not enough funds in the account
+     else 
+         return newBalance = balance - rentAmount; 
+ 
+ }    // end chargeRent method 
+ 
+ 
+ public static boolean checkIfSquareHasRent (int rentValue) {
+ 
+ 
+     boolean hasRent = false; 
+ // this method will return a boolean value 
+ 
+ if (rentValue > 0)
+         hasRent = true; 
+ 
+ else 
+     hasRent = false; 
+ 
+ return hasRent; 
+     
+ 
+ } // end checkIfSquareHasRent
+
+ 
+ 
+
+// end methods in class Monopoly 
+//*************************************************************************** 
+    
+    
 } // end class Monopoly
 //***************************************************************************
 
@@ -263,7 +311,7 @@ class BoardSquare {
 //***************************************************************************
 
 
-/* code for a class of Monopoly squares
+/* code for a class of Monopoly players
  * 
  * CSCI 111 Fall 2013 
  * last edited November 2, 2013 by C. Herbert
