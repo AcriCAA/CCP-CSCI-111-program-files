@@ -33,7 +33,7 @@ public class Monopoly {
         int rentForLocation; // the rent in the BoardSquare where the player lands after moving on the board
         int newBalance; // holds the value for the player's new balance after rent deducted. 
         
-        boolean squareHasRent; // holds value for whether the square the player is on has rent; 
+        boolean squareHasRent = false; // holds value for whether the square the player is on has rent; 
         
         // Create array of 40 monopoly squares
         BoardSquare[] square = new BoardSquare[squareBounds];
@@ -78,14 +78,18 @@ public class Monopoly {
         currentLocation = thePlayer[currentPlayer].getLocation();
         rentForLocation = square[currentLocation].getRent(); 
         
+        
         // check if the square has rent
        squareHasRent = checkIfSquareHasRent(rentForLocation);
+       currentBalance = thePlayer[currentPlayer].getBalance(); 
         
         
-        
+       if (squareHasRent == true){
      
-        currentBalance = thePlayer[currentPlayer].getBalance();
+        
         newBalance = chargeRent(currentBalance, rentForLocation);
+        
+       }
         
             //System.out.println("The rent on this sqaure is: " + rentForLocation);
         
