@@ -6,6 +6,12 @@
  * Date: March 29, 2016
  *
  * CSCI 111 Spring 2016
+ * Program Description: This program, in its current state, starts 
+ * the game monopoly, provides the option to set the number of players, the
+ * players to select their name and token and 
+ * choose a name and token, roll the dice by pressing enter and move around the
+ * board. It also deducts rent from the player for board squares that have
+ * rents. 
  * 
  * This package contains code that can be used as the basis of a monopoly game
  * It has a class of BoardSquares for the board squares in a Monopoly game,
@@ -28,25 +34,26 @@ public class Monopoly {
     public static void main(String[] args) throws Exception {
 
         // ints
-        final int squareBounds = 40;
-        int numPlayers = 2; // set max number of players (default to 2)
-        int currentPlayer = 0; // placeholder for current player
+        final int squareBounds = 40; // constant int to set number of squares on board
+        
         int i; // a loop counter
-        int diRoll; // current roll of the dice
+        int numPlayers = 2; // int set max number of players (default to 2)
+        int currentPlayer = 0; // int to keep track of the current player (player 1 or 2)     
+        int diRoll; // int for current roll of the dice
         int currentLocation; // value to hold player's current location
-        int newLocation; // value to hold player's location after he/she moves away from currentLocation the number of dice values. 
-        int currentBalance; // current player's money balance
+        int newLocation; // value to hold player's location after he/she moves the number of dice values away from currentLocation. 
+        int currentBalance; // int carrying current player's money balance
         int rentForLocation; // the rent in the BoardSquare where the player lands after moving on the board
         int newBalance; // holds the value for the player's new balance after rent deducted. 
 
         // booleans
         boolean squareHasRent = false; // holds value for whether the square the player is on has rent; 
-
+        
         // Strings
-        String userStringInput; // variable to hold String input from user
-        String currentName;
-        String currentToken;
-        String currentSquare;
+        String userStringInput; // String variable to hold String input from user
+        String currentName; // String variable to hold currentName of player
+        String currentToken; // String variable to hold currentToken of player
+        String currentSquare; // String variable to hold currentSquare player is on
 
         // set up instance of Scanner for input
         Scanner kb = new Scanner(System.in);
@@ -58,11 +65,19 @@ public class Monopoly {
         // Call the method to load the array
         loadArray(square);
 
+        // call printLineBreak method to draw a line break
         printLineBreak(71, ':');
+        
+        // print welcome message
         System.out.println("\nWelcome to MONOPOLY!");
+        
+        // print a request for the number of players that will be playing
         System.out.print("How many players will be playing?");
+        
+        // get user input for the number of players
         numPlayers = kbInt.nextInt();
 
+        // print the number of players the user indicated were playing 
         System.out.print("\nOk, great " + numPlayers + " players.\n");
 
 // create array of numPlayers number of players (for scalability when we add full features)
@@ -74,42 +89,79 @@ public class Monopoly {
 
         //Set up players
         for (i = 0; i < numPlayers; i++) {
+            
+            // set current player to equal the value of i to properly iterate 
+            // through the each Player object when the other player's turn 
+            // is over 
+            
             currentPlayer = i;
+            
+            
             printLineBreak(71, ':');
+            
+            // call printWhichPlayer method and pass in the currentPlayer value
             printWhichPlayer(currentPlayer);
+            
+            // call promptUserForName to ask user for his/her name
             promptUserForName();
+           
+            // get user input for name from Scanner
             userStringInput = kb.nextLine();
+            
+            //set thePlayer object name for the currentPlayer to the userStringInput
             thePlayer[currentPlayer].setName(userStringInput);
+            
             printLineBreak(71, ':');
             System.out.print("Hi, " + thePlayer[currentPlayer].getName() + " please ");
 
             // get Token Choice
+            
+            //call promptUserForTokenChoice method to print request for Token choice
             promptUserForTokenChoice();
+            
+            //get user string input from scanner
             userStringInput = kb.nextLine();
+            
+            // set thePlayer object Token to user's string input 
             thePlayer[currentPlayer].setToken(userStringInput);
             printLineBreak(71, ':');
 
         }
 
-        currentPlayer = 0; // reset currentPlayer value to 0
+        currentPlayer = 0; // reset currentPlayer value to 0 so you can start 
+                           // playing with player one
 
         for (i = 0; i < numPlayers; i++) {
             printWhichPlayer(currentPlayer);                
             do {
 
                 printLineBreak(10,'/');
+                
+                // print prompt for user to press enter to roll the dice
                 System.out.println("****** press enter to roll dice ******");
+                
+                // get the user input (enter) from scanner
                 userStringInput = kb.nextLine();
                 printLineBreak(10,'/');    
 
+                // roll the dice by calling the rollDice method and assign 
+                // returned value to diRoll
                 diRoll = rollDice();
-
-               
-
+                
+                // get current location from thePlayer object
                 currentLocation = thePlayer[currentPlayer].getLocation();
+                
+                // call determineNewLocation passing in diRoll, currrentLocaiton and the squareBounds
+                // assign returned value to new Location 
                 newLocation = determineNewLocation(diRoll, currentLocation, squareBounds);
+                
+                // set the new location in thePlayer object for current player
                 thePlayer[currentPlayer].setLocation(newLocation);
+                
+                // get the current location from thePlayer object for the current player
                 currentLocation = thePlayer[currentPlayer].getLocation();
+                
+                // get the Rent for the square object from the currentLocation
                 rentForLocation = square[currentLocation].getRent();
 
                 // check if the square has rent
@@ -125,13 +177,18 @@ public class Monopoly {
                 //get the name of the square the player is now on
                 currentSquare = square[currentLocation].getName();
 
-                // print Player's name, token and square
+                // print Player's name, token and square by calling printNameTokenSquareDice method
                 printNameTokenSquareDice(currentName, currentToken, currentSquare, diRoll);
 
-                if (squareHasRent == true) {
+                if (squareHasRent == true) { // check if the square player is on has rent
 
+                    // print the amount of the rent on the current square
                     System.out.println("The rent on this sqaure is: " + rentForLocation);
+                    
+                    // charge the player rent by calling chargeRent
                     newBalance = chargeRent(currentBalance, rentForLocation);
+                    
+                    // set the balance for the currentPlayer in thePlayer object
                     thePlayer[currentPlayer].setBalance(newBalance);
                     currentBalance = thePlayer[currentPlayer].getBalance();
 
@@ -139,14 +196,17 @@ public class Monopoly {
                     System.out.println("Your new balance is: " + currentBalance);
                     printLineBreak(71,'#');
 
-                } else {
+                } else { // this covers what happens if the square does not have rent
                     currentBalance = thePlayer[currentPlayer].getBalance();
+                    
+                    // print message to user that there is no rent on the square
+                    // print the player's current balance
                     System.out.println("There is no rent for this square.\nYour current balance is: " + currentBalance);
                     printLineBreak(71,'#');
                 }
                 
                 
-            } while (currentBalance > 0);
+            } while (currentBalance > 0); // player keeps going until his/her balance is zero
 
             currentPlayer++; // move on to the next player
 
@@ -156,7 +216,7 @@ public class Monopoly {
     //***********************************************************************
 
 ////////////////////////////////////////////////////////////////////////////////     
-// this prints which player we are currently on
+// this method prints which player we are currently on
 ////////////////////////////////////////////////////////////////////////////////        
     public static void printWhichPlayer(int currentP) {
 
@@ -169,7 +229,7 @@ public class Monopoly {
 ////////////////////////////////////////////////////////////////////////////////        
 
 ////////////////////////////////////////////////////////////////////////////////    
-// this method formats a line break with a width equual to the int passed into
+// this method formats a line break with a width equal to the int passed into
 // using the string passed in 
 ////////////////////////////////////////////////////////////////////////////////
     public static void printLineBreak(int width, char c) {
@@ -183,7 +243,7 @@ public class Monopoly {
 ////////////////////////////////////////////////////////////////////////////////  
 
 ////////////////////////////////////////////////////////////////////////////////        
-// this prompts the user for the name
+// this prompts the user for his/her name
 ////////////////////////////////////////////////////////////////////////////////        
     public static void promptUserForName() {
 
@@ -193,7 +253,7 @@ public class Monopoly {
 ////////////////////////////////////////////////////////////////////////////////    
 
 ////////////////////////////////////////////////////////////////////////////////    
-// prints token options
+// this method prints the token choice options
 ////////////////////////////////////////////////////////////////////////////////        
     public static void promptUserForTokenChoice() {
 
@@ -211,7 +271,8 @@ public class Monopoly {
 ////////////////////////////////////////////////////////////////////////////////        
 
 ////////////////////////////////////////////////////////////////////////////////        
-    // method to load the BoardSquare array from a data file
+//this method loads the BoardSquare array from a data file
+////////////////////////////////////////////////////////////////////////////////        
     public static void loadArray(BoardSquare[] square) throws Exception {
         int i; // a loop counter
 
@@ -250,7 +311,7 @@ public class Monopoly {
     //***********************************************************************
 
 ////////////////////////////////////////////////////////////////////////////////    
-// method to initiate player object 
+// this method initiates player object 
 ////////////////////////////////////////////////////////////////////////////////    
     public static void initiatePlayerObject(Player[] thePlayer, int number) {
 
@@ -262,7 +323,7 @@ public class Monopoly {
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
-// method to roll dice 
+// this method rolls the dice 
 ////////////////////////////////////////////////////////////////////////////////    
     public static int rollDice() {
 
@@ -280,23 +341,26 @@ public class Monopoly {
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
-// method to determines where the player lands on the board after the dice roll
+// method to determine where the player lands on the board after the dice roll
 ////////////////////////////////////////////////////////////////////////////////    
     public static int determineNewLocation(int diceRoll, int currentLocation, int squareBounds) {
 
-        //squareBounds = squareBounds; // accounts for zero as a position on the board
+        
         int movingPlayer = 0; // this keeps track of where the player is moving
         int newLocation; // this is the player's new location 
-
+        
+        // movingPlayer determines where the player lands after diceRoll
         movingPlayer = diceRoll + currentLocation;
 
-        if (movingPlayer >= squareBounds) {
+        // if movingPlayer value is >= 40, then he/she is at the very end of the board 
+        // or at the first square on the board
+        if (movingPlayer >= squareBounds) { 
 
+            
             newLocation = movingPlayer - squareBounds;
-            // System.out.println("NewLocation (in if statment): " + newLocation);
-
-            // will this go on git? 
-        } else {
+            
+        } else { // if the player's move value is not larger than the number of board 
+                 // squares then just set the player's location to the location 
 
             newLocation = movingPlayer;
 
@@ -322,7 +386,9 @@ public class Monopoly {
 ////////////////////////////////////////////////////////////////////////////////
 // method to deduct rent
 // this method checks the player's balance, deducts the rent amount for the
-// board square the player landed on. It also check
+// board square the player landed on. It also checks if the rent amount is less 
+// than the player's balance, if so, it sets the player's balance to zero
+////////////////////////////////////////////////////////////////////////////////    
     public static int chargeRent(int balance, int rentAmount) {
 
         int newBalance = 0;

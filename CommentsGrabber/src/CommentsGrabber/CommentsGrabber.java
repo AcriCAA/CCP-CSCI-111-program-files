@@ -5,10 +5,10 @@
  * 
  * The file "hello.txt" must exist in the project folder for this to work
  */
-package readdata;
+package CommentsGrabber;
 import java.util.Scanner; 
 
-public class ReadData 
+public class CommentsGrabber 
 {
   public static void main(String[] args) throws Exception 
   {
