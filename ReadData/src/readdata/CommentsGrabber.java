@@ -72,38 +72,25 @@ public class CommentsGrabber {
                        
 
                         } // close while 
-                    if(i < fileCodeContents.length())
-                    tempNext = fileCodeContents.charAt(i + 1);
-                    else 
-                        tempNext = temp; 
-                    
-                    while (temp != '*' && tempNext != '/' && i < fileCodeContents.length()){
+        } // close check for /* comment
+                   
+                
+                if (temp == ' ' && tempNext == '*' ) { // checks for the start fo a  ' *' commentlinw
+
+                                    
+                    while (temp != '\n' && i < fileCodeContents.length()) { // loops until we reach next line
                         temp = fileCodeContents.charAt(i);
                         i++;
                         commentsOnly.append(temp);
+                       
+
+                        } // close while 
                     
-                    }
+                    
                     
                    
                     
                     } // close check for /* comment type 
-//                
-//                if (temp == ' ' && tempNext == '*' ) { // checks for the start fo a  ' *' commentlinw
-//
-//                                    
-//                    while (temp != '\n' && i < fileCodeContents.length()) { // loops until we reach next line
-//                        temp = fileCodeContents.charAt(i);
-//                        i++;
-//                        commentsOnly.append(temp);
-//                       
-//
-//                        } // close while 
-//                    
-//                    
-//                    
-//                   
-//                    
-//                    } // close check for /* comment type 
                 
                 
 
