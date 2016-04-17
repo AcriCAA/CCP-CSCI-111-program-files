@@ -17,7 +17,7 @@ public class DrawCyclePhilly {
 
         // set up a JFrame to hold the canvas
         JFrame frame = new JFrame();
-        frame.setTitle("Using Common Graphics Class Methods");
+        frame.setTitle("Ride. Record. Reimagine Your Routes");
         frame.setSize(821,821);
         frame.setLocation(100, 100);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
