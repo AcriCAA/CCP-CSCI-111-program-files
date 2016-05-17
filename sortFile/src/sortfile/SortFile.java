@@ -26,16 +26,13 @@ public class SortFile {
         String[] tutorials = new String[100]; // an array of Strings listing programming language 
 
         count = readLines(tutorials);
-        printArray(tutorials);
+
         sortStringArray(tutorials, count);
         printArray(tutorials);
         writeTextArray(tutorials, count);
 
     }
 
-  
-    
-    
     /* This method reads data from the file into the array.
      * We want our array to work with up to 100 elements
      * Each line from the file will be one element in the array.
@@ -46,33 +43,80 @@ public class SortFile {
      */
     public static int readLines(String[] lines) throws Exception {
 
+        Scanner kb = new Scanner(System.in);
+        String filename = "whatever"; // put an arbitrary name so it throws an error
         System.out.println("Read file");
 
         int count = 0; // count lines read
-        File unsorted = new File("unsorted.txt"); // set up file access with File object
+//        File unsorted = new File(filename); // set up file access with File object
 
         // Create a Scanner named y to read the input stream from the file unsorted
-        Scanner infile = new Scanner(unsorted);
+        
+        String exitStatement = "exit";
+        
+        
+        
+        boolean correctFileName = false; 
+        
+        do {
+            
+               if (filename.equals(exitStatement)){
+                 System.out.println("In the if statement");       
+                 break;
+             }
+            
+            File unsorted = new File(filename); // set up file access with File object
+            
+            try {
+                
+              
+                System.out.println("Ran try section");
+                Scanner infile = new Scanner(unsorted);
 
-        while (infile.hasNextLine()) {
+                while (infile.hasNextLine()) {
 
-            lines[count] = infile.nextLine();
-            count++;
+                    lines[count] = infile.nextLine();
+                    count++;
 
-        } // close while 
+                } // close while 
 
-        infile.close();
+                infile.close();
+                
+                correctFileName = true; 
+                
+            
+
+            } // end try 
+            
+            catch (FileNotFoundException e) {
+                System.err.println("FileNotFoundException: " + e.getMessage());
+                System.out.println("The file name specified is " + unsorted.getName().toString());
+                
+                System.out.println("Please enter the correct "
+                        + "filename (or type exit to quit the program): ");
+                
+             
+                filename = kb.next();
+                
+                System.out.println("Filename is: " + filename);
+                
+
+               
+            //    System.out.println("New file name is " + filename);
+                        
+            } // end catch 
+            
+             
+            
+        } while (correctFileName == false);
 
         return count;
 
     }
 
- 
     // This method prints an array of Strings on the screen.
     // The first parameter refers to the array in the main method.  The second
     //parameter is the number of elements in the array that actually contain data 
-    
-    
     public static void printArray(String[] t) throws Exception {
         System.out.println("Ran printArray");
         for (String val : t) {
@@ -108,9 +152,6 @@ public class SortFile {
 
     }// end sortArray()
 
-  
-    
-    
 // This method writes the array to a file
     public static void writeTextArray(String[] array, int count) throws Exception {
 
